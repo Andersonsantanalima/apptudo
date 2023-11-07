@@ -1,37 +1,58 @@
 import { StatusBar } from 'expo-status-bar';
+
+//npm install @react-navigation/native
 import { NavigationContainer } from '@react-navigation/native';
-import Parse from "parse/react-native.js";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import { Ionicons } from "@expo/vector-icons";
-import Cadastrar from './componets/cadastrar';
-import Consultar from './componets/consutar';
+
+//npm install @react-navigation/bottom-tabs
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+import { Ionicons } from '@expo/vector-icons';
+
+import Cadastrar from './components/cadastrar';
+import Listar from './components/listar';
 
 
-
-Parse.setAsyncStorage(AsyncStorage);
-Parse.initialize('iViRHL3CzKeIsxpNjBsN3K8VoYLtAmniZYQ590Y8','7xDsT1Fpv2YipYceX58PLQrkTmyZZ9BM3NkJOEk2');
-Parse.serverURL = 'https://parseapi.back4app.com/';
-
-const tab = createBottomTabNavigator();
-
+const Tabs = createBottomTabNavigator();
 
 export default function App() {
   return (
-     <NavigationContainer>
-       <tab.Navigator>
-         <tab.Screen name ='cadastrar' component={Cadastrar}  options={{tabBarIcon:({color,size})=>(<Ionicons name="add" size={size} color={color} />)}}/>
-         <tab.Screen name ='consultar' component={Consultar} options={{tabBarIcon:({color,size})=>(<Ionicons name="list-sharp" size={size} color={color} />)}}/>
-       </tab.Navigator>
-     </NavigationContainer>
+    <NavigationContainer>
+      <Tabs.Navigator
+        screenOptions={{
+          headerStyle:{ // Título: Plano de fundo preto
+            backgroundColor: '#00f',            
+          },
+          headerTitleStyle:{ // Título: Cor e espessura da fonte, 
+            color: "#fff",
+            fontWeight: '100',            
+          },
+          headerTitleAlign: 'center', // Título alinhado ao centro
+          
+          tabBarStyle:{
+            height: 60,
+            backgroundColor: '#000'
+          }
+
+        }}
+      >        
+        <Tabs.Screen
+          name='Cadastrar'
+          component={ Cadastrar }
+          options={{
+            tabBarIcon:({color,size})=>(<Ionicons name="ios-add-circle-outline" size={size} color={color} />)
+          }}
+        />
+        <Tabs.Screen 
+          name='Listar'
+          component={ Listar }
+          options={{
+            tabBarIcon:({color,size})=>(<Ionicons name="ios-list-circle-outline" size={size} color={color} />)
+          }}
+        />
+      </Tabs.Navigator>
+      <StatusBar       
+        backgroundColor="#555"
+      />
+    </NavigationContainer>    
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
